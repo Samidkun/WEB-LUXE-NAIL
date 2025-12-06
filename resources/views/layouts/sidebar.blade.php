@@ -1,0 +1,52 @@
+<!-- === SIDEBAR === -->
+<div id="sidebar" class="sidebar text-center">
+    <!-- Tombol Hamburger -->
+    <div class="toggle-wrapper text-end">
+        <button id="toggleSidebar"
+            class="btn btn-light d-inline-flex align-items-center justify-content-center shadow-sm"
+            style="border:2px solid #f8d7da; width:40px; height:40px; border-radius:15px;">
+            <i class="bi bi-list fs-4" style="color:#b87f7f;"></i>
+        </button>
+    </div>
+
+    <img src="{{ asset('img/luxe-nail-1.png') }}" alt="Luxe Nail Logo"
+        width="80" height="80" class="sidebar-logo rounded-circle shadow-sm mb-3">
+
+    <h4 class="fw-bold">LUXE NAIL</h4>
+    <hr class="divider">
+
+    <div class="menu text-start mt-4">
+        <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
+            <i class="bi bi-house-door me-2"></i> <span>Dashboard</span>
+        </a>
+        <a href="{{ route('dashboard.reservations') }}" class="{{ request()->routeIs('dashboard.reservations') ? 'active' : '' }}">
+            <i class="bi bi-calendar-check me-2"></i> <span>Reservations</span>
+        </a>
+        <a href="{{ route('staff.index') }}" class="{{ request()->routeIs('staff.index') ? 'active' : '' }}">
+            <i class="bi bi-people me-2"></i> <span>Staff</span>
+        </a>
+        <a href="{{ route('dashboard.income') }}" class="{{ request()->routeIs('dashboard.income') ? 'active' : '' }}">
+            <i class="bi bi-cash-stack me-2"></i> <span>Income</span>
+        </a>
+        <a href="{{ route('dashboard.cashier.queue') }}" class="{{ request()->routeIs('dashboard.cashier.queue') ? 'active' : '' }}">
+            <i class="bi bi-wallet2 me-2"></i> <span>Cashier</span>
+        </a>
+        <a href="{{ route('profile.index') }}" class="{{ request()->routeIs('profile.index') ? 'active' : '' }}">
+            <i class="bi bi-person me-2"></i> <span>Profile</span>
+        </a>
+
+        <a href="{{ route('kategori.index') }}" class="{{ request()->routeIs('kategori.*') ? 'active' : '' }}">
+            <i class="bi bi-tags me-2"></i> <span>Categories</span>
+        </a>
+
+        <hr class="divider">
+
+        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="text-danger fw-semibold" style="text-decoration:none;">
+            <i class="bi bi-box-arrow-right me-2"></i> <span>Logout</span>
+        </a>
+
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+        </form>
+    </div>
+</div>
