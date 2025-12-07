@@ -85,3 +85,18 @@ Route::get('/debug/categories', function () {
     }
 });
 
+Route::get('/debug/categories-full', function () {
+    try {
+        $categories = \App\Models\Category::where('is_active', 1)
+            ->orderBy('order')
+            ->get();
+
+        return $categories;
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => $e->getMessage(),
+            'trace' => $e->getTrace()[0] ?? null,
+        ], 500);
+    }
+});
+
