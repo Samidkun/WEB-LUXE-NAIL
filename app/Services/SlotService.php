@@ -13,7 +13,7 @@ class SlotService
         $artists = NailArtist::all();
 
         $start = Carbon::createFromTime(8, 0);
-        $end = Carbon::createFromTime(21, 0);
+        $end = Carbon::createFromTime(20, 0); // Buka sampai jam 8 malam
 
         $slots = [];
 
@@ -27,9 +27,11 @@ class SlotService
             $slotStart = $start->copy();
             $slotEnd = $start->copy()->addMinutes($durationMinutes);
 
-            // BREAK RULES (1 Hour Breaks)
-            // Skip slots starting at 12:00-13:00 (lunch) and 15:00-16:00 (afternoon break)
-            if (in_array($timeStr, ["12:00", "12:30", "15:00", "15:30"])) {
+            // BREAK RULES
+            // - 12:00-13:00 (lunch break)
+            // - 15:00-16:00 (afternoon break)  
+            // - 17:30-18:30 (Maghrib prayer break)
+            if (in_array($timeStr, ["12:00", "12:30", "15:00", "15:30", "17:30", "18:00"])) {
                 $start->addMinutes($interval);
                 continue;
             }
