@@ -69,6 +69,27 @@ class PaymentController extends Controller
         $reservation->status = "confirmed";
         $reservation->save();
 
+        // CREATE INCOME RECORD
+        \App\Models\Income::create([
+            'reservation_id' => $reservation->id,
+            'customer_name' => $reservation->name,
+            'customer_phone' => $reservation->phone,
+            'treatment_type' => $reservation->treatment_type,
+            'shape' => null,
+            'color' => null,
+            'finish' => null,
+            'accessory' => null,
+            'price_shape' => 0,
+            'price_color' => 0,
+            'price_finish' => 0,
+            'price_accessory' => 0,
+            'total_price' => $reservation->total_price ?? 0,
+            'ai_image_url' => null,
+            'payment_status' => 'paid',
+            'payment_method' => $reservation->payment_method ?? 'bank_transfer',
+            'reservation_date' => $reservation->reservation_date,
+        ]);
+
         return response()->json([
             'success' => true,
             'message' => 'Payment verified successfully.'
