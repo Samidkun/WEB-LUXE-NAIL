@@ -40,8 +40,10 @@ class PaymentController extends Controller
             $reservation->payment_proof = $path;
         }
 
-        $reservation->is_paid = 1;
-        $reservation->payment_method = "bank_transfer";
+        // Track DP payment (for display only, not income)
+        $reservation->dp_paid = true;
+        $reservation->dp_amount = 25000;
+        $reservation->dp_payment_method = 'bank_transfer';
         $reservation->status = "waiting_validation";
         $reservation->save();
 
