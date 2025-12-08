@@ -21,7 +21,7 @@ class SlotService
         // Kita set 30 menit biar lebih fleksibel
         $interval = 30;
 
-        while ($start->copy()->addMinutes($durationMinutes)->lte($end)) {
+        while ($start->lt($end)) {
 
             $timeStr = $start->format("H:i");
             $slotStart = $start->copy();
