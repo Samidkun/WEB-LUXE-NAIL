@@ -68,6 +68,8 @@ class PaymentController extends Controller
             ], 400);
         }
 
+        // Mark DP as paid and confirm booking
+        $reservation->is_paid = 1; // DP confirmed
         $reservation->status = "confirmed";
         $reservation->save();
 
