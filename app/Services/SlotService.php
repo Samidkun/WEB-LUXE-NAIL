@@ -84,7 +84,7 @@ class SlotService
     {
         // Pastikan jam kerja valid
         $startWork = substr($artist->jam_kerja_start ?? '08:00', 0, 5);
-        $endWork = substr($artist->jam_kerja_end ?? '21:00', 0, 5);
+        $endWork = substr($artist->jam_kerja_end ?? '20:00', 0, 5);
 
         return $time >= $startWork && $time < $endWork;
     }
