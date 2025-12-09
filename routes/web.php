@@ -138,7 +138,14 @@ Route::prefix('dashboard')
 // IMAGE SERVING (CORS FIX)
 // ======================
 Route::get('/served-image/{path}', function ($path) {
-    $filePath = public_path($path);
+    // Try storage/app/public first (for AI generated images)
+    $filePath = storage_path('app/public/' . $path);
+
+    // If not found, try public folder (for template images)
+    if (!file_exists($filePath)) {
+        $filePath = public_path($path);
+    }
+
     if (!file_exists($filePath)) {
         abort(404);
     }
