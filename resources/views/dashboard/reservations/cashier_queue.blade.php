@@ -26,6 +26,7 @@
                                 <th>Customer</th>
                                 <th>Treatment</th>
                                 <th>Total Bill</th>
+                                <th>Time Start</th>
                                 <th>Time Finished</th>
                                 <th class="text-end pe-4">Action</th>
                             </tr>
@@ -40,7 +41,8 @@
                                     </td>
                                     <td>{{ $r->treatment_type }}</td>
                                     <td class="fw-bold text-primary">Rp {{ number_format($r->total_price, 0, ',', '.') }}</td>
-                                    <td>{{ $r->updated_at->format('H:i') }}</td>
+                                    <td>{{ $r->start_time ? $r->start_time->format('H:i') : $r->reservation_time }}</td>
+                                    <td>{{ $r->end_time ? $r->end_time->format('H:i') : '-' }}</td>
                                     <td class="text-end pe-4">
                                         <a href="{{ route('dashboard.cashier', $r->id) }}"
                                             class="btn btn-success btn-sm text-white">
