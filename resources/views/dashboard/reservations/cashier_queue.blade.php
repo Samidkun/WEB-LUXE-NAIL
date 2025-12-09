@@ -41,8 +41,20 @@
                                 </td>
                                 <td>{{ $r->treatment_type }}</td>
                                 <td class="fw-bold text-primary">Rp {{ number_format($r->total_price, 0, ',', '.') }}</td>
-                                <td>{{ isset($r->start_time) && $r->start_time ? $r->start_time->format('H:i') : \Carbon\Carbon::parse($r->reservation_time)->format('H:i') }}</td>
-                                <td>{{ isset($r->end_time) && $r->end_time ? $r->end_time->format('H:i') : '-' }}</td>
+                                <td>
+                                    @if(isset($r->start_time) && $r->start_time)
+                                        {{ \Carbon\Carbon::parse($r->start_time)->format('H:i') }}
+                                    @else
+                                        {{ \Carbon\Carbon::parse($r->reservation_time)->format('H:i') }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(isset($r->end_time) && $r->end_time)
+                                        {{ \Carbon\Carbon::parse($r->end_time)->format('H:i') }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
                                 <td class="text-end pe-4">
                                     <a href="{{ route('dashboard.cashier', $r->id) }}"
                                         class="btn btn-success btn-sm text-white">
