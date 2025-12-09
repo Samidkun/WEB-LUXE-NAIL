@@ -22,7 +22,7 @@
                     <table class="table table-hover align-middle mb-0">
                         <thead class="bg-light">
                             <tr>
-                                <th class="ps-4">Queue No</th>
+                                <th class="ps-4">Invoice No</th>
                                 <th>Customer</th>
                                 <th>Treatment</th>
                                 <th>Total Bill</th>
