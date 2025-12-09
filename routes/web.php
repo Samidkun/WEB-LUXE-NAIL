@@ -138,6 +138,9 @@ Route::prefix('dashboard')
 // IMAGE SERVING (CORS FIX)
 // ======================
 Route::get('/served-image/{path}', function ($path) {
+    // Decode URL to handle filenames with spaces
+    $path = urldecode($path);
+
     // Try storage/app/public first (for AI generated images)
     $filePath = storage_path('app/public/' . $path);
 
