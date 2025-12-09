@@ -77,10 +77,49 @@
     </div>
 </div>
 
+{{-- Payment Success Modal --}}
+<div class="modal fade" id="paymentSuccessModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title"><i class="fas fa-check-circle me-2"></i>Payment Successful!</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center py-4">
+                <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+                <h4 class="mt-3">Payment Processed</h4>
+                <p class="text-muted mb-0">Invoice: <strong id="modalQueueNumber"></strong></p>
+                <p class="text-muted">Change: <strong id="modalChange"></strong></p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <a href="#" id="printReceiptBtn" class="btn btn-primary" target="_blank">
+                    <i class="fas fa-print me-2"></i>Print Receipt
+                </a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 {{-- Auto Refresh Every 20 seconds --}}
 <script>
-    setTimeout(function() {
-        location.reload();
-    }, 20000);
+    @if(session('payment_success'))
+        // Show payment success modal
+        const modal = new bootstrap.Modal(document.getElementById('paymentSuccessModal'));
+        document.getElementById('modalQueueNumber').textContent = '{{ session("queue_number") }}';
+        document.getElementById('modalChange').textContent = 'Rp {{ number_format(session("change", 0), 0, ",", ".") }}';
+        document.getElementById('printReceiptBtn').href = '/payment/invoice/{{ session("reservation_id") }}';
+        modal.show();
+        
+        // Auto refresh after modal is closed
+        document.getElementById('paymentSuccessModal').addEventListener('hidden.bs.modal', function () {
+            location.reload();
+        });
+    @else
+        // Normal auto refresh
+        setTimeout(function() {
+            location.reload();
+        }, 20000);
+    @endif
 </script>
 @endsection
