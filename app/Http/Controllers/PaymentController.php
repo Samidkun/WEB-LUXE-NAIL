@@ -36,7 +36,18 @@ class PaymentController extends Controller
         $reservation = Reservation::findOrFail($id);
 
         if ($request->hasFile('payment_proof')) {
-            $path = $request->file('payment_proof')->store('payment_proofs', 'public');
+            // Save to public/payment_proofs/ (no symlink needed)
+            $file = $request->file('payment_proof');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $directory = public_path('payment_proofs');
+
+            // Create directory if not exists
+            if (!file_exists($directory)) {
+                mkdir($directory, 0755, true);
+            }
+
+            $file->move($directory, $filename);
+            $path = 'payment_proofs/' . $filename;
             $reservation->payment_proof = $path;
         }
 
