@@ -141,8 +141,13 @@ Route::get('/served-image/{path}', function ($path) {
     // Decode URL to handle filenames with spaces
     $path = urldecode($path);
 
-    // Check public folder only (all images stored here now)
+    // Check public folder first (new images)
     $filePath = public_path($path);
+
+    // If not found, check storage for backward compatibility (old images)
+    if (!file_exists($filePath)) {
+        $filePath = storage_path('app/public/' . $path);
+    }
 
     if (!file_exists($filePath)) {
         abort(404);
