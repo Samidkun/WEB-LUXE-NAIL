@@ -279,7 +279,7 @@
 
                 if (proofPath && proofPath !== 'null') {
                     // Use storage symlink path
-                    img.src = `/storage/${proofPath}`;
+                    img.src = `/${proofPath}`; // Direct public path (no symlink needed)
                     img.classList.remove('d-none');
                     noProofText.classList.add('d-none');
                 } else {
@@ -419,10 +419,10 @@
 
             function loadReservationsForDate(date) {
                 reservationTableBody.innerHTML = `
-                                <tr>
-                                    <td colspan="7" class="text-center">Loading...</td>
-                                </tr>
-                            `;
+                                    <tr>
+                                        <td colspan="7" class="text-center">Loading...</td>
+                                    </tr>
+                                `;
 
                 fetch(`/dashboard/reservations/date/${date}`)
                     .then(r => r.json())
@@ -489,29 +489,29 @@
                     // pending
                     if (r.status === "pending") {
                         actions += `
-                                        <button class="btn-action btn-confirm" onclick="setStatus(${r.id}, 'waiting_validation', 'Mark as waiting for validation?')">Confirm</button>
-                                        <button class="btn-action btn-cancel" onclick="setStatus(${r.id}, 'cancelled', 'Cancel reservation?')">Cancel</button>
-                                    `;
+                                            <button class="btn-action btn-confirm" onclick="setStatus(${r.id}, 'waiting_validation', 'Mark as waiting for validation?')">Confirm</button>
+                                            <button class="btn-action btn-cancel" onclick="setStatus(${r.id}, 'cancelled', 'Cancel reservation?')">Cancel</button>
+                                        `;
                     }
 
                     // waiting_validation
                     if (r.status === "waiting_validation") {
                         let amount = r.total_price ? (r.total_price + 25000) : 25000; // Add 25k booking fee
                         actions += `
-                                        <button class="btn-action btn-primary text-white" 
-                                            onclick="viewProof(${r.id}, '${r.payment_proof}', '${r.queue_number}', '${r.name}', ${amount}, '${r.reservation_date} ${r.reservation_time}')">
-                                            <i class="fas fa-eye me-1"></i> Verify Payment
-                                        </button>
-                                    `;
+                                            <button class="btn-action btn-primary text-white" 
+                                                onclick="viewProof(${r.id}, '${r.payment_proof}', '${r.queue_number}', '${r.name}', ${amount}, '${r.reservation_date} ${r.reservation_time}')">
+                                                <i class="fas fa-eye me-1"></i> Verify Payment
+                                            </button>
+                                        `;
                     }
 
                     // waiting_payment (NEW - Ready for Cashier)
                     if (r.status === "waiting_payment") {
                         actions += `
-                                        <a href="/dashboard/cashier/${r.id}" class="btn-action btn-success text-white text-decoration-none">
-                                            <i class="fas fa-cash-register me-1"></i> Pay / Finish
-                                        </a>
-                                    `;
+                                            <a href="/dashboard/cashier/${r.id}" class="btn-action btn-success text-white text-decoration-none">
+                                                <i class="fas fa-cash-register me-1"></i> Pay / Finish
+                                            </a>
+                                        `;
                     }
 
                     // edit allowed except completed/cancel
@@ -520,16 +520,16 @@
                     }
 
                     return `
-                                    <tr>
-                                        <td><strong>${r.queue_number}</strong></td>
-                                        <td>${r.name}</td>
-                                        <td>${r.phone}</td>
-                                        <td>${r.treatment_type}</td>
-                                        <td>${r.reservation_date} ${r.reservation_time}</td>
-                                        <td>${badge(r.status)}</td>
-                                        <td><div class="actions-container">${actions}</div></td>
-                                    </tr>
-                                `;
+                                        <tr>
+                                            <td><strong>${r.queue_number}</strong></td>
+                                            <td>${r.name}</td>
+                                            <td>${r.phone}</td>
+                                            <td>${r.treatment_type}</td>
+                                            <td>${r.reservation_date} ${r.reservation_time}</td>
+                                            <td>${badge(r.status)}</td>
+                                            <td><div class="actions-container">${actions}</div></td>
+                                        </tr>
+                                    `;
                 }).join('');
             }
 
