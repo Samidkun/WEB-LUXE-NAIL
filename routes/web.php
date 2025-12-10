@@ -141,13 +141,8 @@ Route::get('/served-image/{path}', function ($path) {
     // Decode URL to handle filenames with spaces
     $path = urldecode($path);
 
-    // Try storage/app/public first (for AI generated images)
-    $filePath = storage_path('app/public/' . $path);
-
-    // If not found, try public folder (for template images)
-    if (!file_exists($filePath)) {
-        $filePath = public_path($path);
-    }
+    // Check public folder only (all images stored here now)
+    $filePath = public_path($path);
 
     if (!file_exists($filePath)) {
         abort(404);

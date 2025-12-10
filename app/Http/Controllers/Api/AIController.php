@@ -110,11 +110,18 @@ class AIController extends Controller
             $filename = 'ai_' . time() . '_' . $reservation->id . '.jpg';
             $path = 'ai_generated/' . $filename;
 
-            // Save to storage/app/public/ai_generated/
-            \Storage::disk('public')->put($path, $imageContent);
+            // Create directory if not exists
+            $publicPath = public_path($path);
+            $directory = dirname($publicPath);
+            if (!file_exists($directory)) {
+                mkdir($directory, 0755, true);
+            }
 
-            // Generate local URL
-            $localImageUrl = url('/served-image/' . $path);
+            // Save to public/ai_generated/ (no symlink needed)
+            file_put_contents($publicPath, $imageContent);
+
+            // Generate local URL (direct access, no /served-image/ needed)
+            $localImageUrl = url('/' . $path);
 
         } catch (\Exception $e) {
             Log::error("Image download failed: " . $e->getMessage());
